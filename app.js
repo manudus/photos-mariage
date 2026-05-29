@@ -46,18 +46,27 @@ function uploadFiles() {
 }
 
 function sendFile(name, type, data, callback) {
-  const xhr = new XMLHttpRequest();
 
-  xhr.open("POST", "https://script.google.com/macros/s/AKfycbzj5Kmt5dowK6yho5dspAI6Nm7i4ixPXKifD4bY39YkNf4doSxh-AxpSWWnM3mQCiw/exec");
+  // retire "data:image/jpeg;base64,"
+  const base64 = data.split(",")[1];
 
-  xhr.onload = function () {
+  fetch("https://script.google.com/macros/s/AKfycbzj5Kmt5dowK6yho5dspAI6Nm7i4ixPXKifD4bY39YkNf4doSxh-AxpSWWnM3mQCiw/exec", {
+    method: "POST",
+    body: JSON.stringify({
+      filename: name,
+      mimeType: type,
+      data: base64,
+      token: "6626"
+    })
+  })
+  .then(res => res.text())
+  .then(txt => {
+    console.log(txt);
     callback();
-  };
-
-  xhr.send(JSON.stringify({
-    name: name,
-    type: type,
-    data: data,
-    token: "6626"
-  }));
+  })
+  .catch(err => {
+    console.error(err);
+    document.getElementById("status").textContent = "Erreur upload";
+  });
+}
 }
