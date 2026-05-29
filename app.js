@@ -3,12 +3,21 @@ const PASSWORD = "6626";
 const ENDPOINT = "https://script.google.com/macros/s/AKfycbzj5Kmt5dowK6yho5dspAI6Nm7i4ixPXKifD4bY39YkNf4doSxh-AxpSWWnM3mQCiw/exec";
 
 function login() {
+
+  alert("clic détecté");
+
   const pwd = document.getElementById("pwd").value;
 
   if (pwd === PASSWORD) {
+    alert("mot de passe OK");
+
     document.getElementById("loginBox").style.display = "none";
     document.getElementById("uploadBox").style.display = "block";
+
   } else {
+
+    alert("mauvais mot de passe");
+
     document.getElementById("error").textContent = "Mot de passe incorrect";
   }
 }
