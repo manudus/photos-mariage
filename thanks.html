@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Merci ❤️</title>
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+</head>
+
+<body>
+
+<div class="card">
+  <h1>Merci ❤️</h1>
+
+  <p>
+    Vos photos ont bien été envoyées ✨<br><br>
+    Merci de partager ces souvenirs avec nous.
+  </p>
+
+  <button onclick="window.location.href='index.html'">
+    Envoyer d’autres photos
+  </button>
+</div>
+
+<script>
+function launchConfetti() {
+  const duration = 3000;
+  const end = Date.now() + duration;
+
+  (function frame() {
+    confetti({
+      particleCount: 6,
+      spread: 80,
+      origin: { y: 0.6 },
+      colors: ['#c26a4a', '#ffffff', '#d9a08c']
+    });
+
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
+    }
+  })();
+}
+
+launchConfetti();
+</script>
+
+</body>
+</html>
