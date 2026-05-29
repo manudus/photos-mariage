@@ -77,5 +77,5 @@ function sendFile(name, type, data, callback) {
     console.error(err);
     document.getElementById("status").textContent = "Erreur upload";
   });
-}
+
 }
