@@ -1,22 +1,15 @@
 const PASSWORD = "6626";
-
-const ENDPOINT = "https://script.google.com/macros/s/AKfycbzj5Kmt5dowK6yho5dspAI6Nm7i4ixPXKifD4bY39YkNf4doSxh-AxpSWWnM3mQCiw/exec";
+const ENDPOINT = "https://script.google.com/macros/s/XXXX/exec";
 
 function login() {
-
- 
   const pwd = document.getElementById("pwd").value;
 
   if (pwd === PASSWORD) {
-    alert("mot de passe OK");
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("uploadBox").classList.remove("hidden");
 
-    document.getElementById("loginBox").style.display = "none";
-    document.getElementById("uploadBox").style.display = "block";
-
+    loadGallery();
   } else {
-
-    alert("mauvais mot de passe");
-
     document.getElementById("error").textContent = "Mot de passe incorrect";
   }
 }
@@ -26,7 +19,7 @@ function uploadFiles() {
   const status = document.getElementById("status");
 
   if (!files.length) {
-    status.textContent = "Aucun fichier sélectionné";
+    status.textContent = "Aucun fichier";
     return;
   }
 
@@ -38,13 +31,13 @@ function uploadFiles() {
     reader.onload = function () {
       sendFile(file.name, file.type, reader.result, () => {
         uploaded++;
-        let percent = Math.round((uploaded / files.length) * 100);
+
+        const percent = Math.round((uploaded / files.length) * 100);
         document.getElementById("progressBar").style.width = percent + "%";
 
         if (uploaded === files.length) {
-          setTimeout(() => {
-            window.location.href = "thanks.html";
-          }, 600);
+          status.textContent = "Upload terminé ✔";
+          loadGallery();
         }
       });
     };
@@ -54,27 +47,41 @@ function uploadFiles() {
 }
 
 function sendFile(name, type, data, callback) {
-
-  // retire "data:image/jpeg;base64,"
   const base64 = data.split(",")[1];
 
-  fetch("https://script.google.com/macros/s/AKfycbzj5Kmt5dowK6yho5dspAI6Nm7i4ixPXKifD4bY39YkNf4doSxh-AxpSWWnM3mQCiw/exec", {
+  fetch(ENDPOINT, {
     method: "POST",
+    headers: { "Content-Type": "text/plain" },
     body: JSON.stringify({
       filename: name,
       mimeType: type,
       data: base64,
-      token: "6626"
+      token: PASSWORD
     })
   })
-  .then(res => res.text())
-  .then(txt => {
-    console.log(txt);
-    callback();
-  })
-  .catch(err => {
-    console.error(err);
+  .then(() => callback())
+  .catch(() => {
     document.getElementById("status").textContent = "Erreur upload";
   });
+}
 
+/* 🔥 GALERIE (version simple) */
+function loadGallery() {
+  const gallery = document.getElementById("gallery");
+
+  // Version simple : recharge depuis ton Apps Script si tu ajoutes GET
+  fetch(ENDPOINT)
+    .then(res => res.json())
+    .then(data => {
+      gallery.innerHTML = "";
+
+      data.forEach(img => {
+        const el = document.createElement("img");
+        el.src = img.url;
+        gallery.appendChild(el);
+      });
+    })
+    .catch(() => {
+      gallery.innerHTML = "<p>Galerie indisponible</p>";
+    });
 }
