@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Photos Mariage</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="card" id="loginBox">
+  <h1>Accès privé</h1>
+  <input type="password" id="pwd" placeholder="Mot de passe">
+  <button onclick="login()">Entrer</button>
+  <p id="error"></p>
+</div>
+
+<div class="card" id="uploadBox" style="display:none;">
+  <h1>Upload Photos</h1>
+
+  <input type="file" id="files" multiple accept="image/*">
+  <button onclick="uploadFiles()">Envoyer</button>
+
+  <div class="progress-container">
+    <div id="progressBar"></div>
+  </div>
+
+  <p id="status"></p>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
