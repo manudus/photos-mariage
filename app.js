@@ -4,8 +4,7 @@ const ENDPOINT = "https://script.google.com/macros/s/AKfycbzj5Kmt5dowK6yho5dspAI
 
 function login() {
 
-  alert("clic détecté");
-
+ 
   const pwd = document.getElementById("pwd").value;
 
   if (pwd === PASSWORD) {
