@@ -1,47 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Valérie & Manu - Photos</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
 <body>
 
 <div class="container">
 
-  <h1 class="title">
-    Mariage Valérie & Manu
-  </h1>
+  <h1 class="title">Valérie & Manu</h1>
 
-  <div class="card" id="loginBox">
-
+  <!-- LOGIN -->
+  <div id="loginBox" class="card">
     <h2>Accès privé</h2>
-
-    <input type="password"
-           id="pwd"
-           placeholder="Mot de passe">
-
-    <button onclick="login()">
-      Entrer
-    </button>
-
+    <input type="password" id="pwd" placeholder="Mot de passe">
+    <button onclick="login()">Entrer</button>
     <p id="error"></p>
-
   </div>
 
-  <div class="card"
-       id="uploadBox"
-       style="display:none;">
+  <!-- UPLOAD -->
+  <div id="uploadBox" class="card hidden">
 
-    <h2>Déposer vos photos</h2>
+    <h2>Ajouter vos photos</h2>
 
-    <input type="file"
-           id="files"
-           multiple
-           accept="image/*">
-
-    <button onclick="uploadFiles()">
-      Envoyer
-    </button>
+    <input type="file" id="files" multiple accept="image/*">
+    <button onclick="uploadFiles()">Envoyer</button>
 
     <div class="progress-container">
       <div id="progressBar"></div>
     </div>
 
     <p id="status"></p>
+
+    <h2 class="gallery-title">Galerie</h2>
+    <div id="gallery"></div>
 
   </div>
 
@@ -50,3 +48,4 @@
 <script src="app.js"></script>
 
 </body>
+</html>
