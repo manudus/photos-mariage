@@ -1,4 +1,4 @@
-const PASSWORD = "mariagevm";
+const PASSWORD = "6626";
 
 const ENDPOINT = "https://script.google.com/macros/s/AKfycbzj5Kmt5dowK6yho5dspAI6Nm7i4ixPXKifD4bY39YkNf4doSxh-AxpSWWnM3mQCiw/exec";
 
