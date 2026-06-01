@@ -1,52 +1,77 @@
-const SCRIPT_URL = "TON_URL_APPS_SCRIPT";
+const ENDPOINT = "https://script.google.com/macros/s/XXXX/exec";
 
-async function upload() {
-  const files = document.getElementById("fileInput").files;
-  const status = document.getElementById("status");
+async function uploadFiles() {
 
-  if (!files.length) {
-    status.textContent = "Ajoute des photos 📸";
-    return;
-  }
+const files = document.getElementById("files").files;
+const status = document.getElementById("status");
 
-  let success = 0;
-
-  for (let file of files) {
-    const base64 = await toBase64(file);
-
-    try {
-      const res = await fetch(SCRIPT_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          image: base64,
-          name: file.name,
-          code: "6626"
-        })
-      });
-
-      const data = await res.json();
-
-      if (data.success) {
-        success++;
-      }
-
-    } catch (e) {
-      console.log("Erreur upload", e);
-    }
-  }
-
-  status.textContent = `💛 ${success}/${files.length} photos envoyées`;
-  document.getElementById("fileInput").value = "";
+if (!files.length) {
+status.textContent = "Aucune photo sélectionnée";
+return;
 }
 
-function toBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
+status.textContent = "Upload en cours...";
+
+for (let file of files) {
+
+const base64 = await readFile(file);
+
+await fetch(ENDPOINT, {
+method: "POST",
+body: JSON.stringify({
+filename: file.name,
+mimeType: file.type,
+data: base64
+})
+});
+
+}
+
+showSuccess();
+
+}
+
+function readFile(file) {
+
+return new Promise(resolve => {
+
+const reader = new FileReader();
+
+reader.onload = () => {
+resolve(reader.result.split(",")[1]);
+};
+
+reader.readAsDataURL(file);
+
+});
+
+}
+
+function showSuccess() {
+
+document.getElementById("status").textContent = "";
+
+document.getElementById("result").classList.remove("hidden");
+
+/* 🎉 confettis simples */
+for (let i = 0; i < 30; i++) {
+setTimeout(() => {
+let c = document.createElement("div");
+c.innerHTML = "🎉";
+c.style.position = "fixed";
+c.style.left = Math.random() * 100 + "vw";
+c.style.top = "-20px";
+c.style.fontSize = "20px";
+document.body.appendChild(c);
+
+setTimeout(() => c.remove(), 3000);
+
+}, i * 100);
+}
+
+}
+
+function resetUpload() {
+document.getElementById("files").value = "";
+document.getElementById("result").classList.add("hidden");
 }
