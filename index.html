@@ -2,45 +2,96 @@
 <html lang="fr">
 
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Mariage Valérie & Manu</title>
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1">
 
-<link rel="stylesheet" href="style.css">
+<title>
+Valérie & Manu
+</title>
+
+<link
+rel="stylesheet"
+href="style.css">
 
 </head>
 
 <body>
 
-<div class="container">
+<div class="card">
 
-<h1>Merci ❤️</h1>
+<h1>
+Valérie & Manu
+</h1>
 
-<p>Partagez vos plus beaux souvenirs</p>
+<p class="subtitle">
 
-<input type="file" id="files" multiple accept="image/*">
+Partagez vos plus beaux souvenirs ❤️
 
-<button onclick="uploadFiles()">
-Envoyer les photos
+</p>
+
+<input
+type="file"
+id="files"
+multiple
+accept="image/*">
+
+<button
+onclick="uploadFiles()">
+
+Envoyer mes photos
+
 </button>
 
-<p id="status"></p>
+<div class="progress">
 
-<div id="result" class="hidden">
+<div
+id="bar">
+</div>
 
-<h2>🎉 Merci pour vos photos !</h2>
+</div>
 
-<p>Vos photos ont bien été envoyées.</p>
+<p
+id="status">
+</p>
 
-<button onclick="resetUpload()">
-Envoyer d'autres photos
+</div>
+
+<!-- POPUP -->
+
+<div
+id="popup"
+class="popup hidden">
+
+<div class="popup-content">
+
+<div id="confetti"></div>
+
+<h2>
+🎉 Merci !
+</h2>
+
+<p>
+
+Vos photos ont bien été envoyées.
+
+</p>
+
+<button
+onclick="resetUpload()">
+
+Ajouter d'autres photos
+
 </button>
 
-<a href="https://drive.google.com/drive/folders/1UoR85yF4yDGOTv95uUo-EkTZSq7nsjCn?hl=fr"
-target="_blank">
+<a
+target="_blank"
+href="https://drive.google.com/drive/folders/1UoR85yF4yDGOTv95uUo-EkTZSq7nsjCn?hl=fr">
 
-Voir les photos déposées
+Voir la galerie
 
 </a>
 
