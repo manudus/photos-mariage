@@ -3,9 +3,7 @@ const PASSWORD = "6626";
 
 /* Remplace par ton URL Apps Script */
 const ENDPOINT =
-"https://script.google.com/macros/s/AKfycbzBzpcJvudmqQ3NB6oQl_WTbRaZYEe3npbsSqALQ6vHD3zm0I06at692vjej4OgDCA/exec
-
-";
+"https://script.google.com/macros/s/AKfycbzBzpcJvudmqQ3NB6oQl_WTbRaZYEe3npbsSqALQ6vHD3zm0I06at692vjej4OgDCA/exec";
 
 /* ==========================
    LOGIN
