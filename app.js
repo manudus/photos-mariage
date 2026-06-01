@@ -1,32 +1,27 @@
-const PASSWORD = "6626";
-
-/* 🔥 TON URL APPS SCRIPT */
 const ENDPOINT =
 "https://script.google.com/macros/s/XXXXX/exec";
 
-document.addEventListener("DOMContentLoaded", () => {
+let TOKEN = null;
 
-document
-.getElementById("loginBtn")
-.addEventListener("click", login);
-
-document
-.getElementById("uploadBtn")
-.addEventListener("click", uploadFiles);
-
-loadGallery();
-
-});
-
-function login() {
+/* LOGIN */
+async function login() {
 
 const pwd =
-document
-.getElementById("pwd")
-.value
-.trim();
+document.getElementById("pwd").value;
 
-if (pwd === PASSWORD) {
+const res = await fetch(ENDPOINT, {
+method: "POST",
+body: JSON.stringify({
+action: "login",
+password: pwd
+})
+});
+
+const data = await res.json();
+
+if (data.ok) {
+
+TOKEN = data.token;
 
 document
 .getElementById("loginBox")
@@ -40,106 +35,51 @@ document
 
 document
 .getElementById("error")
-.textContent =
-"Mot de passe incorrect";
+.textContent = "Accès refusé";
 
 }
 
 }
 
-/* ================= UPLOAD ================= */
-
+/* UPLOAD */
 async function uploadFiles() {
 
 const files =
 document.getElementById("files").files;
 
-const status =
-document.getElementById("status");
-
-if (!files.length) {
-status.textContent = "Aucune photo";
-return;
-}
-
 for (let file of files) {
 
-const base64 =
-await readFile(file);
+const base64 = await readFile(file);
 
 await fetch(ENDPOINT, {
-
 method: "POST",
-headers: {
-"Content-Type": "text/plain"
-},
-
 body: JSON.stringify({
+action: "upload",
+token: TOKEN,
 filename: file.name,
 mimeType: file.type,
-data: base64,
-token: PASSWORD
+data: base64
 })
-
 });
 
 }
 
-status.textContent = "Upload terminé ✔";
-
-loadGallery();
+alert("Upload terminé");
 
 }
 
+/* FILE */
 function readFile(file) {
 
-return new Promise((resolve) => {
+return new Promise(resolve => {
 
-const reader = new FileReader();
+const r = new FileReader();
 
-reader.onload = () => {
+r.onload = () =>
+resolve(r.result.split(",")[1]);
 
-resolve(reader.result.split(",")[1]);
-
-};
-
-reader.readAsDataURL(file);
+r.readAsDataURL(file);
 
 });
 
 }
-
-/* ================= GALERIE ================= */
-
-async function loadGallery() {
-
-const gallery =
-document.getElementById("gallery");
-
-try {
-
-const res = await fetch(ENDPOINT);
-
-const data = await res.json();
-
-gallery.innerHTML = "";
-
-data.forEach(img => {
-
-const el = document.createElement("img");
-
-el.src = img.url;
-
-gallery.appendChild(el);
-
-});
-
-} catch (e) {
-
-gallery.innerHTML =
-"<p>Erreur galerie</p>";
-
-}
-
-}
-```
