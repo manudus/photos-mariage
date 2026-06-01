@@ -57,6 +57,11 @@ async function uploadPhotos() {
   }, 500);
 }
 
+// ➕ NOUVEAU : réouvrir sélecteur
+function openFilePicker() {
+  document.getElementById("fileInput").click();
+}
+
 // 📦 BASE64
 function toBase64(file) {
   return new Promise((res, rej) => {
@@ -67,13 +72,13 @@ function toBase64(file) {
   });
 }
 
-// 💛 MESSAGE FINAL
+// 💛 MESSAGE
 function showThanks() {
   document.getElementById("thanks").classList.remove("hidden");
 
   setTimeout(() => {
     document.getElementById("thanks").classList.add("hidden");
-  }, 6000);
+  }, 5000);
 }
 
 // 🎊 CONFETTIS
