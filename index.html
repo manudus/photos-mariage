@@ -2,51 +2,44 @@
 <html lang="fr">
 
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valérie & Manu - Photos</title>
 
-<title>Valérie & Manu</title>
-
-<style>
-
-.hidden{
-display:none;
-}
-
-</style>
+<link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-<div id="loginBox">
+<div class="container">
 
-<input
-id="pwd"
-type="password"
-placeholder="Mot de passe">
+<h1 class="title">Valérie & Manu</h1>
 
-<button onclick="login()">
-Entrer
-</button>
+<div id="loginBox" class="card">
+
+<h2>Accès privé</h2>
+
+<input type="password" id="pwd" placeholder="Mot de passe">
+
+<button id="loginBtn">Entrer</button>
 
 <p id="error"></p>
 
 </div>
 
-<div
-id="uploadBox"
-class="hidden">
+<div id="uploadBox" class="card hidden">
 
-<h2>Connexion OK ✔</h2>
+<h2>Ajouter vos photos</h2>
+
+<p>Connexion OK ✔</p>
 
 </div>
 
-<script src="app.js?v=2"></script>
+</div>
+
+<script src="app.js"></script>
 
 </body>
 
 </html>
-```
