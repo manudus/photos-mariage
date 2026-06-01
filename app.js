@@ -327,7 +327,6 @@ document
 "0%";
 
 }
-
 function confetti(){
 
 const area =
@@ -336,9 +335,22 @@ document
 "confetti"
 );
 
+area.innerHTML =
+"";
+
+const icons =
+
+[
+"🤎",
+"✨",
+"🤍",
+"🎉",
+"🍂"
+];
+
 for(
 let i=0;
-i<50;
+i<90;
 i++
 ){
 
@@ -352,28 +364,73 @@ el.className =
 "confetti";
 
 el.innerHTML =
-["🎉","✨","🤎"][
+
+icons[
 Math.floor(
-Math.random()*3
+Math.random()
+*
+icons.length
 )
 ];
 
 el.style.left =
+
 Math.random()
 *
 100
 +
 "%";
 
+el.style.fontSize =
+
+(
+14
++
+Math.random()
+*
+20
+)
++
+"px";
+
+el.style.animationDelay =
+
+(
+Math.random()
+*
+2
+)
++
+"s";
+
+el.style.setProperty(
+
+"--drift",
+
+(
+Math.random()
+*
+300
+-
+150
+)
+
+);
+
 area.appendChild(
 el
 );
 
 setTimeout(
-()=>el.remove(),
-3000
+()=>{
+
+el.remove();
+
+},
+8000
 );
 
 }
 
 }
+
