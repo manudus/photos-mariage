@@ -1,77 +1,141 @@
-const ENDPOINT = "https://script.google.com/macros/s/XXXX/exec";
+const ENDPOINT = "COLLE_ICI_TON_URL_EXEC";
 
 async function uploadFiles() {
 
-const files = document.getElementById("files").files;
-const status = document.getElementById("status");
+const files =
+document.getElementById("files").files;
+
+const status =
+document.getElementById("status");
 
 if (!files.length) {
-status.textContent = "Aucune photo sélectionnée";
+status.textContent =
+"Sélectionne au moins une photo";
 return;
 }
 
-status.textContent = "Upload en cours...";
+status.textContent =
+"Upload en cours...";
 
-for (let file of files) {
+try {
 
-const base64 = await readFile(file);
+for (const file of files) {
 
-await fetch(ENDPOINT, {
+const base64 =
+await readFile(file);
+
+const res =
+await fetch(
+ENDPOINT,
+{
 method: "POST",
-body: JSON.stringify({
-filename: file.name,
-mimeType: file.type,
-data: base64
+headers: {
+"Content-Type":
+"text/plain"
+},
+body:
+JSON.stringify({
+filename:
+file.name,
+mimeType:
+file.type,
+data:
+base64
 })
-});
+}
+);
+
+const text =
+await res.text();
+
+console.log(text);
+
+if (!res.ok) {
+throw new Error(
+"HTTP " +
+res.status
+);
+}
 
 }
 
 showSuccess();
 
+} catch (err) {
+
+console.error(err);
+
+status.textContent =
+"Erreur : " +
+err.message;
+
+}
+
 }
 
 function readFile(file) {
 
-return new Promise(resolve => {
+return new Promise(
+(resolve, reject) => {
 
-const reader = new FileReader();
+const reader =
+new FileReader();
 
-reader.onload = () => {
-resolve(reader.result.split(",")[1]);
-};
+reader.onload =
+() =>
+resolve(
+reader.result
+.split(",")[1]
+);
 
-reader.readAsDataURL(file);
+reader.onerror =
+reject;
 
-});
+reader.readAsDataURL(
+file
+);
+
+}
+);
 
 }
 
 function showSuccess() {
 
-document.getElementById("status").textContent = "";
+document
+.getElementById(
+"status"
+)
+.textContent =
+"";
 
-document.getElementById("result").classList.remove("hidden");
-
-/* 🎉 confettis simples */
-for (let i = 0; i < 30; i++) {
-setTimeout(() => {
-let c = document.createElement("div");
-c.innerHTML = "🎉";
-c.style.position = "fixed";
-c.style.left = Math.random() * 100 + "vw";
-c.style.top = "-20px";
-c.style.fontSize = "20px";
-document.body.appendChild(c);
-
-setTimeout(() => c.remove(), 3000);
-
-}, i * 100);
-}
+document
+.getElementById(
+"result"
+)
+.classList
+.remove(
+"hidden"
+);
 
 }
 
 function resetUpload() {
-document.getElementById("files").value = "";
-document.getElementById("result").classList.add("hidden");
+
+document
+.getElementById(
+"files"
+)
+.value =
+"";
+
+document
+.getElementById(
+"result"
+)
+.classList
+.add(
+"hidden"
+);
+
 }
