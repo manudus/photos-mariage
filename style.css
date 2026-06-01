@@ -1,19 +1,40 @@
 body {
-  font-family: Arial;
-  background: #f7efe9;
-  text-align: center;
-  margin: 0;
+font-family: Arial;
+background: #f6e7dd;
+text-align: center;
+padding: 20px;
 }
 
 .container {
-  padding: 40px;
+max-width: 500px;
+margin: auto;
+background: white;
+padding: 20px;
+border-radius: 20px;
+box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+h1 {
+color: #b45a3c;
 }
 
 button {
-  background: #c66b3d;
-  color: white;
-  border: none;
-  padding: 12px 18px;
-  border-radius: 10px;
-  margin-top: 10px;
+background: #b45a3c;
+color: white;
+border: none;
+padding: 12px;
+margin-top: 10px;
+border-radius: 10px;
+width: 100%;
+}
+
+a {
+display: block;
+margin-top: 15px;
+color: #b45a3c;
+font-weight: bold;
+}
+
+.hidden {
+display: none;
 }
