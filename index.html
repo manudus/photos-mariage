@@ -1,51 +1,63 @@
+```html
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Valérie & Manu - Photos</title>
+<title>Valérie & Manu</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
 
 <div class="container">
 
-  <h1 class="title">Valérie & Manu</h1>
+<h1>Valérie & Manu</h1>
 
-  <!-- LOGIN -->
-  <div id="loginBox" class="card">
-    <h2>Accès privé</h2>
-    <input type="password" id="pwd" placeholder="Mot de passe">
-    <button onclick="login()">Entrer</button>
-    <p id="error"></p>
-  </div>
+<div id="loginBox">
 
-  <!-- UPLOAD -->
-  <div id="uploadBox" class="card hidden">
+<input
+type="password"
+id="pwd"
+placeholder="Mot de passe">
 
-    <h2>Ajouter vos photos</h2>
+<button id="loginBtn">
+Entrer
+</button>
 
-    <input type="file" id="files" multiple accept="image/*">
-    <button onclick="uploadFiles()">Envoyer</button>
+<p id="error"></p>
 
-    <div class="progress-container">
-      <div id="progressBar"></div>
-    </div>
+</div>
 
-    <p id="status"></p>
+<div
+id="uploadBox"
+class="hidden">
 
-    <h2 class="gallery-title">Galerie</h2>
-    <div id="gallery"></div>
+<p>Connexion OK ✔</p>
 
-  </div>
+</div>
 
 </div>
 
 <script src="./app.js"></script>
 
+<script>
+
+document
+.getElementById(
+"loginBtn"
+)
+.addEventListener(
+"click",
+login
+);
+
+</script>
+
 </body>
+
 </html>
+```
