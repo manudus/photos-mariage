@@ -1,65 +1,87 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Photos mariage Valérie & Manu</title>
+const FOLDER_NAME = "Mariage Valérie & Manu";
+const INVITE_CODE = "6626";
 
-  <link rel="stylesheet" href="style.css"/>
-</head>
+/* =========================
+   📁 RÉCUPÉRATION DOSSIER
+========================= */
+function getFolder() {
+  const folders = DriveApp.getFoldersByName(FOLDER_NAME);
+  return folders.hasNext()
+    ? folders.next()
+    : DriveApp.createFolder(FOLDER_NAME);
+}
 
-<body>
+/* =========================
+   📤 UPLOAD PHOTO (POST)
+========================= */
+function doPost(e) {
+  try {
+    const data = JSON.parse(e.postData.contents);
 
-<!-- LOGIN -->
-<div id="loginScreen" class="login">
-  <div class="box">
-    <h1>💍 Mariage Valérie & Manu</h1>
-    <p>Entrez le code invité</p>
+    // 🔐 sécurité simple
+    if (!data.code || data.code !== INVITE_CODE) {
+      return json({ success: false, error: "Code invalide" });
+    }
 
-    <input type="password" id="code" placeholder="Code..." />
-    <button onclick="checkCode()">Entrer</button>
+    const folder = getFolder();
 
-    <p id="error"></p>
-  </div>
-</div>
+    const base64 = data.image.split(",")[1];
 
-<!-- APP -->
-<div id="app" class="hidden">
+    const blob = Utilities.newBlob(
+      Utilities.base64Decode(base64),
+      "image/jpeg",
+      data.name || "photo.jpg"
+    );
 
-  <header>
-    <h1>💍 Partagez vos photos</h1>
-    <p>Merci pour vos souvenirs 💛</p>
-  </header>
+    const file = folder.createFile(blob);
 
-  <div class="upload">
+    // 🌍 rendre public
+    file.setSharing(
+      DriveApp.Access.ANYONE_WITH_LINK,
+      DriveApp.Permission.VIEW
+    );
 
-    <input type="file" id="fileInput" multiple accept="image/*"/>
-    <button onclick="uploadPhotos()">Envoyer les photos</button>
+    const url = "https://drive.google.com/uc?export=view&id=" + file.getId();
 
-    <p id="status"></p>
+    // 💾 stockage liste images
+    const props = PropertiesService.getScriptProperties();
+    let images = JSON.parse(props.getProperty("images") || "[]");
 
-    <!-- PROGRESS -->
-    <div id="progressContainer" class="progress hidden">
-      <div id="progressBar"></div>
-    </div>
+    images.unshift(url); // plus récent en premier
 
-  </div>
+    props.setProperty("images", JSON.stringify(images));
 
-</div>
+    return json({
+      success: true,
+      url: url
+    });
 
-<!-- THANK YOU + GALERIE LINK -->
-<div id="thanks" class="thanks hidden">
-  <h2>💛 Merci !</h2>
-  <p>Vos photos rendent ce mariage inoubliable</p>
+  } catch (err) {
+    return json({
+      success: false,
+      error: err.toString()
+    });
+  }
+}
 
-  <!-- OPTION PRO : LIEN GALERIE -->
-  <a href="https://manudus.github.io/photos-mariage/"
-     target="_blank"
-     class="gallery-link">
-    📸 Voir toutes les photos du mariage
-  </a>
-</div>
+/* =========================
+   📥 GALERIE (GET)
+========================= */
+function doGet() {
+  const props = PropertiesService.getScriptProperties();
+  const images = JSON.parse(props.getProperty("images") || "[]");
 
-<script src="app.js"></script>
-</body>
-</html>
+  return json({
+    success: true,
+    images: images
+  });
+}
+
+/* =========================
+   🔧 UTILITAIRE JSON
+========================= */
+function json(obj) {
+  return ContentService
+    .createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}
