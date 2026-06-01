@@ -1,4 +1,4 @@
-const ENDPOINT = "COLLE_ICI_TON_URL_EXEC";
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbzCQ3tL2DIti0UtniK9nUXbCr7MIEbs60tG_xS7DoxOLIL0_QcUAGBBfoDMwKAHKRA/exec";
 
 async function uploadFiles() {
 
