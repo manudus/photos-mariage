@@ -4,22 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Photos mariage Valérie & Manu</title>
-
   <link rel="stylesheet" href="style.css"/>
 </head>
 
 <body>
 
-<!-- 🔐 LOGIN -->
-<div id="loginScreen" class="login-screen">
-  <div class="login-box">
+<!-- LOGIN -->
+<div id="loginScreen" class="login">
+  <div class="box">
     <h1>💍 Mariage Valérie & Manu</h1>
     <p>Entrez le code invité</p>
 
-    <input type="password" id="accessCode" placeholder="Code..." />
+    <input type="password" id="code" placeholder="Code..." />
     <button onclick="checkCode()">Entrer</button>
 
-    <p id="loginError"></p>
+    <p id="error"></p>
   </div>
 </div>
 
@@ -27,41 +26,17 @@
 <div id="app" class="hidden">
 
   <header>
-    <h1>Photos mariage Valérie & Manu</h1>
-    <p>Partagez vos souvenirs 💛</p>
+    <h1>💍 Upload Photos</h1>
+    <p>Partagez vos souvenirs</p>
   </header>
 
-  <!-- UPLOAD -->
-  <section class="upload-box">
-    <input type="file" id="fileInput" multiple accept="image/*" />
+  <div class="upload">
+    <input type="file" id="fileInput" multiple accept="image/*"/>
     <button onclick="uploadPhotos()">Envoyer les photos</button>
+
     <p id="status"></p>
-  </section>
-
-  <!-- GALERIE -->
-  <section class="gallery">
-    <div id="galleryGrid"></div>
-  </section>
-
-</div>
-
-<!-- 🎉 POPUP -->
-<div id="thankPopup" class="popup hidden">
-  <div class="popup-content">
-    <div class="balloons">🎈🎈🎈</div>
-    <h2>Merci 💛</h2>
-    <p>Vos photos rendent ce mariage inoubliable !</p>
-    <p>Vous pouvez en ajouter autant que vous voulez 📸</p>
-    <button onclick="closePopup()">Continuer</button>
   </div>
-</div>
 
-<!-- 🖼️ VIEWER FULLSCREEN -->
-<div id="viewer" class="viewer hidden" onclick="closeViewer()">
-  <span class="close-btn">✕</span>
-  <img id="viewerImg" />
-  <button class="nav left" onclick="event.stopPropagation(); prevImg()">‹</button>
-  <button class="nav right" onclick="event.stopPropagation(); nextImg()">›</button>
 </div>
 
 <script src="app.js"></script>
