@@ -1,5 +1,9 @@
 const ENDPOINT =
-"https://script.google.com/macros/s/AKfycbyNO52gClq946ujgXgrqJFvndZZA3GCiDkxRRWIlLCwhXqyM3cCq4LpBBbw1Hp390I/exec";
+"COLLE_TON_URL_EXEC";
+
+/* =====================
+UPLOAD
+===================== */
 
 async function uploadFiles(){
 
@@ -45,46 +49,21 @@ i++
 ){
 
 status.textContent =
-`Préparation ${i+1}/${files.length}`;
+`Optimisation ${i+1}/${files.length}`;
 
-const base64 =
-await compress(
+const compressed =
+await compressImage(
 files[i]
 );
 
 status.textContent =
 `Envoi ${i+1}/${files.length}`;
 
-await fetch(
-ENDPOINT,
-{
-
-method:
-"POST",
-
-headers:{
-"Content-Type":
-"text/plain"
-},
-
-body:
-JSON.stringify({
-
-filename:
+await send(
+compressed,
 rename(
 files[i].name
-),
-
-mimeType:
-"image/jpeg",
-
-data:
-base64
-
-})
-
-}
-
+)
 );
 
 bar.style.width =
@@ -102,8 +81,7 @@ files.length
 
 }
 
-status.textContent =
-"";
+status.textContent="";
 
 showPopup();
 
@@ -115,22 +93,28 @@ err
 );
 
 status.textContent =
-"Erreur upload";
+"Erreur pendant l'envoi";
 
 }
 
 }
 
-function compress(file){
+/* =====================
+COMPRESSION RAPIDE MOBILE
+===================== */
+
+function compressImage(
+file
+){
 
 return new Promise(
-resolve=>{
+(resolve)=>{
 
 const reader =
 new FileReader();
 
 reader.onload =
-e=>{
+ev=>{
 
 const img =
 new Image();
@@ -138,7 +122,7 @@ new Image();
 img.onload =
 ()=>{
 
-const c =
+const canvas =
 document
 .createElement(
 "canvas"
@@ -150,46 +134,71 @@ img.width;
 let h =
 img.height;
 
-const max =
-1800;
+/* plus petit → plus rapide */
+
+const MAX =
+1280;
 
 if(
 w>h
-&&
-w>max
+){
+
+if(
+w>MAX
 ){
 
 h=
-h*
-max/w;
+Math.round(
+h
+*
+MAX
+/
+w
+);
 
-w=max;
+w=
+MAX;
 
 }
 
+}
+else{
+
 if(
-h>w
-&&
-h>max
+h>MAX
 ){
 
 w=
-w*
-max/h;
+Math.round(
+w
+*
+MAX
+/
+h
+);
 
-h=max;
+h=
+MAX;
 
 }
 
-c.width=w;
+}
 
-c.height=h;
+canvas.width=w;
 
-c
-.getContext(
+canvas.height=h;
+
+const ctx =
+canvas.getContext(
 "2d"
-)
-.drawImage(
+);
+
+/* accélération */
+
+ctx.imageSmoothingEnabled =
+true;
+
+ctx.drawImage(
 img,
 0,
 0,
@@ -197,21 +206,24 @@ w,
 h
 );
 
-resolve(
+/* qualité mobile */
 
-c
+const jpeg =
+canvas
 .toDataURL(
 "image/jpeg",
-0.72
-)
-.split(",")[1]
+0.60
+);
 
+resolve(
+jpeg
+.split(",")[1]
 );
 
 };
 
 img.src =
-e.target.result;
+ev.target.result;
 
 };
 
@@ -223,6 +235,58 @@ file
 );
 
 }
+
+/* =====================
+UPLOAD
+===================== */
+
+async function send(
+data,
+filename
+){
+
+const res =
+await fetch(
+ENDPOINT,
+{
+
+method:
+"POST",
+
+headers:{
+"Content-Type":
+"text/plain"
+},
+
+body:
+JSON.stringify({
+
+filename,
+
+mimeType:
+"image/jpeg",
+
+data
+
+})
+
+}
+
+);
+
+if(
+!res.ok
+){
+
+throw new Error(
+"Upload refusé"
+);
+
+}
+
+}
+
+/* ===================== */
 
 function rename(
 name
@@ -238,27 +302,20 @@ return name
 
 }
 
+/* ===================== */
+
 function showPopup(){
 
-const popup =
 document
 .getElementById(
 "popup"
-);
-
-if(
-popup
-){
-
-popup
+)
 .classList
 .remove(
 "hidden"
 );
 
 confetti();
-
-}
 
 }
 
@@ -289,6 +346,10 @@ document
 
 }
 
+/* =====================
+CONFETTIS
+===================== */
+
 function confetti(){
 
 const area =
@@ -299,7 +360,7 @@ document
 
 for(
 let i=0;
-i<80;
+i<40;
 i++
 ){
 
@@ -330,18 +391,13 @@ Math.random()
 +
 "%";
 
-el.style.animationDelay =
-Math.random()
-+
-"s";
-
 area.appendChild(
 el
 );
 
 setTimeout(
 ()=>el.remove(),
-3500
+3000
 );
 
 }
