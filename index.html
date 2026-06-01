@@ -1,25 +1,55 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Photos mariage Valérie & Manu</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mariage Valérie & Manu</title>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
-  <div class="container">
-    <h1>💍 Mariage Valérie & Manu</h1>
-    <p>Envoyez vos photos 💛</p>
+<div class="container">
 
-    <input type="file" id="fileInput" multiple accept="image/*">
+<h1>Merci ❤️</h1>
 
-    <button onclick="upload()">Envoyer</button>
+<p>Partagez vos plus beaux souvenirs</p>
 
-    <p id="status"></p>
-  </div>
+<input type="file" id="files" multiple accept="image/*">
 
-  <script src="app.js"></script>
+<button onclick="uploadFiles()">
+Envoyer les photos
+</button>
+
+<p id="status"></p>
+
+<div id="result" class="hidden">
+
+<h2>🎉 Merci pour vos photos !</h2>
+
+<p>Vos photos ont bien été envoyées.</p>
+
+<button onclick="resetUpload()">
+Envoyer d'autres photos
+</button>
+
+<a href="https://drive.google.com/drive/folders/1UoR85yF4yDGOTv95uUo-EkTZSq7nsjCn?hl=fr"
+target="_blank">
+
+Voir les photos déposées
+
+</a>
+
+</div>
+
+</div>
+
+<script src="app.js"></script>
+
 </body>
+
 </html>
