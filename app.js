@@ -12,19 +12,55 @@ const ENDPOINT =
 ========================== */
 
 function login() {
-  const pwd = document.getElementById("pwd").value;
-  const error = document.getElementById("error");
 
-  if (pwd === PASSWORD) {
-    document.getElementById("loginBox").classList.add("hidden");
-    document.getElementById("uploadBox").classList.remove("hidden");
+  const input =
+    document
+      .getElementById("pwd")
+      .value
+      .trim();
 
-    error.textContent = "";
+  const error =
+    document.getElementById("error");
+
+  console.log(
+    "Saisi :",
+    input
+  );
+
+  if (
+    input === PASSWORD
+  ) {
+
+    document
+      .getElementById(
+        "loginBox"
+      )
+      .classList
+      .add(
+        "hidden"
+      );
+
+    document
+      .getElementById(
+        "uploadBox"
+      )
+      .classList
+      .remove(
+        "hidden"
+      );
+
+    error.textContent =
+      "";
 
     loadGallery();
+
   } else {
-    error.textContent = "Mot de passe incorrect";
+
+    error.textContent =
+      "Mot de passe incorrect";
+
   }
+
 }
 
 /* ==========================
