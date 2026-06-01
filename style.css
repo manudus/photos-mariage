@@ -1,40 +1,202 @@
-body {
-font-family: Arial;
-background: #f6e7dd;
-text-align: center;
-padding: 20px;
+body{
+
+margin:0;
+
+padding:24px;
+
+background:
+
+linear-gradient(
+180deg,
+#f7ece6,
+#efe0d6
+);
+
+font-family:
+
+system-ui;
+
 }
 
-.container {
-max-width: 500px;
-margin: auto;
-background: white;
-padding: 20px;
-border-radius: 20px;
-box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+.card{
+
+max-width:520px;
+
+margin:auto;
+
+padding:32px;
+
+background:white;
+
+border-radius:28px;
+
+box-shadow:
+
+0 15px 40px
+rgba(0,0,0,.08);
+
 }
 
-h1 {
-color: #b45a3c;
+h1{
+
+text-align:center;
+
+color:#b6654b;
+
 }
 
-button {
-background: #b45a3c;
-color: white;
-border: none;
-padding: 12px;
-margin-top: 10px;
-border-radius: 10px;
-width: 100%;
+.subtitle{
+
+text-align:center;
+
+color:#8d695b;
+
 }
 
-a {
-display: block;
-margin-top: 15px;
-color: #b45a3c;
-font-weight: bold;
+input{
+
+width:100%;
+
+margin-top:20px;
+
 }
 
-.hidden {
-display: none;
+button{
+
+width:100%;
+
+margin-top:18px;
+
+padding:16px;
+
+border:none;
+
+border-radius:14px;
+
+background:#b6654b;
+
+color:white;
+
+font-size:16px;
+
+}
+
+.progress{
+
+margin-top:20px;
+
+height:12px;
+
+background:#eee;
+
+border-radius:999px;
+
+overflow:hidden;
+
+}
+
+#bar{
+
+height:100%;
+
+width:0;
+
+background:#b6654b;
+
+transition:.3s;
+
+}
+
+#status{
+
+text-align:center;
+
+margin-top:16px;
+
+}
+
+.popup{
+
+position:fixed;
+
+inset:0;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+background:
+rgba(0,0,0,.35);
+
+}
+
+.popup-content{
+
+width:90%;
+
+max-width:420px;
+
+background:white;
+
+padding:30px;
+
+border-radius:26px;
+
+text-align:center;
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.popup a{
+
+display:block;
+
+margin-top:18px;
+
+color:#b6654b;
+
+font-weight:bold;
+
+}
+
+.hidden{
+
+display:none;
+
+}
+
+.confetti{
+
+position:absolute;
+
+top:-20px;
+
+font-size:24px;
+
+animation:
+
+fall
+3s
+linear
+forwards;
+
+}
+
+@keyframes fall{
+
+to{
+
+transform:
+translateY(110vh)
+rotate(360deg);
+
+opacity:0;
+
+}
+
 }
