@@ -1,5 +1,5 @@
 const ENDPOINT =
-"https://script.google.com/macros/s/AKfycbwp4VNEAerqX0I-Fbh5X7s_BkrYWnjABSBltxN113nuIikCl6-6pxVMG_rj70b4z-w/exec";
+"https://script.google.com/macros/s/AKfycbz7D_4FQ09XnNBAETWLqkLE4Psph1OhKkdl2DlAswtm3yflS8hID-h_EndlTHRJadE/exec";
 
 /* ================= */
 
