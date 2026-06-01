@@ -1,14 +1,96 @@
 ```html
 <!DOCTYPE html>
-<html>
+<html lang="fr">
+
+<head>
+<meta charset="UTF-8">
+<title>Valérie & Manu</title>
+
+<style>
+.hidden{
+display:none;
+}
+</style>
+
+</head>
 
 <body>
 
-<h1>TEST</h1>
+<h1>Valérie & Manu</h1>
 
-<button onclick="alert('OK')">
-Clique ici
+<div id="loginBox">
+
+<input
+id="pwd"
+type="password"
+placeholder="Mot de passe">
+
+<button onclick="login()">
+Entrer
 </button>
+
+<p id="error"></p>
+
+</div>
+
+<div
+id="uploadBox"
+class="hidden">
+
+<h2>Connexion OK ✔</h2>
+
+</div>
+
+<script>
+
+const PASSWORD =
+"6626";
+
+function login(){
+
+alert("clic OK");
+
+const pwd =
+document
+.getElementById("pwd")
+.value;
+
+if(
+pwd === PASSWORD
+){
+
+document
+.getElementById(
+"loginBox"
+)
+.classList
+.add(
+"hidden"
+);
+
+document
+.getElementById(
+"uploadBox"
+)
+.classList
+.remove(
+"hidden"
+);
+
+}else{
+
+document
+.getElementById(
+"error"
+)
+.textContent =
+"Mot de passe incorrect";
+
+}
+
+}
+
+</script>
 
 </body>
 
