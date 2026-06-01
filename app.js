@@ -3,34 +3,44 @@ const PASSWORD = "6626";
 
 function login() {
 
-  alert("clic détecté");
+const pwd =
+document
+.getElementById("pwd")
+.value
+.trim();
 
-  const value =
-    document
-      .getElementById("pwd")
-      .value
-      .trim();
+if (
+pwd === PASSWORD
+) {
 
-  if (value === PASSWORD) {
+document
+.getElementById(
+"loginBox"
+)
+.classList
+.add(
+"hidden"
+);
 
-    document
-      .getElementById("loginBox")
-      .style.display =
-      "none";
+document
+.getElementById(
+"uploadBox"
+)
+.classList
+.remove(
+"hidden"
+);
 
-    document
-      .getElementById("uploadBox")
-      .style.display =
-      "block";
+} else {
 
-  } else {
+document
+.getElementById(
+"error"
+)
+.textContent =
+"Mot de passe incorrect";
 
-    document
-      .getElementById("error")
-      .textContent =
-      "Mot de passe incorrect";
-
-  }
+}
 
 }
 ```
