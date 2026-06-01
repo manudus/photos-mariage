@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Valérie & Manu - Photos</title>
 
 <link rel="stylesheet" href="style.css">
@@ -16,6 +17,7 @@
 
 <h1 class="title">Valérie & Manu</h1>
 
+<!-- LOGIN -->
 <div id="loginBox" class="card">
 
 <h2>Accès privé</h2>
@@ -28,11 +30,19 @@
 
 </div>
 
+<!-- UPLOAD -->
 <div id="uploadBox" class="card hidden">
 
 <h2>Ajouter vos photos</h2>
 
-<p>Connexion OK ✔</p>
+<input type="file" id="files" multiple accept="image/*">
+
+<button id="uploadBtn">Envoyer</button>
+
+<p id="status"></p>
+
+<h2>Galerie</h2>
+<div id="gallery"></div>
 
 </div>
 
