@@ -172,29 +172,82 @@ display:none;
 
 }
 
+#confetti{
+
+position:absolute;
+
+inset:0;
+
+pointer-events:none;
+
+overflow:hidden;
+
+}
+
 .confetti{
 
 position:absolute;
 
-top:-30px;
+top:-40px;
 
-font-size:24px;
+font-size:18px;
+
+opacity:0;
 
 animation:
-fall
-3s
-linear
+confettiFall
+6s
+cubic-bezier(.15,.8,.25,1)
 forwards;
 
 }
 
-@keyframes fall{
+@keyframes confettiFall{
 
-to{
+0%{
 
 transform:
-translateY(120vh)
-rotate(360deg);
+translateY(-50px)
+translateX(0)
+rotate(0deg);
+
+opacity:0;
+
+}
+
+10%{
+
+opacity:1;
+
+}
+
+50%{
+
+transform:
+translateY(45vh)
+translateX(
+calc(
+var(--drift)
+* 1px
+))
+rotate(
+180deg
+);
+
+}
+
+100%{
+
+transform:
+translateY(110vh)
+translateX(
+calc(
+var(--drift)
+* 2px
+))
+rotate(
+540deg
+);
 
 opacity:0;
 
