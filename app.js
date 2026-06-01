@@ -1,12 +1,14 @@
 const ENDPOINT =
-"COLLE_TON_URL_EXEC";
+"https://script.google.com/macros/s/AKfycbyNO52gClq946ujgXgrqJFvndZZA3GCiDkxRRWIlLCwhXqyM3cCq4LpBBbw1Hp390I/exec";
 
 async function uploadFiles(){
 
 const files =
 [
 ...document
-.getElementById("files")
+.getElementById(
+"files"
+)
 .files
 ];
 
@@ -27,7 +29,7 @@ if(
 ){
 
 status.textContent =
-"Sélectionne des photos";
+"Sélectionne au moins une photo";
 
 return;
 
@@ -87,7 +89,9 @@ base64
 
 bar.style.width =
 (
-(i+1)
+(
+i+1
+)
 /
 files.length
 *
@@ -104,23 +108,23 @@ status.textContent =
 showPopup();
 
 }
-catch(e){
+catch(err){
+
+console.error(
+err
+);
 
 status.textContent =
 "Erreur upload";
 
-console.error(e);
-
 }
 
 }
 
-function compress(
-file
-){
+function compress(file){
 
 return new Promise(
-(resolve)=>{
+resolve=>{
 
 const reader =
 new FileReader();
@@ -156,11 +160,8 @@ w>max
 ){
 
 h=
-h
-*
-max
-/
-w;
+h*
+max/w;
 
 w=max;
 
@@ -173,11 +174,8 @@ h>max
 ){
 
 w=
-w
-*
-max
-/
-h;
+w*
+max/h;
 
 h=max;
 
@@ -242,16 +240,25 @@ return name
 
 function showPopup(){
 
+const popup =
 document
 .getElementById(
 "popup"
-)
+);
+
+if(
+popup
+){
+
+popup
 .classList
 .remove(
 "hidden"
 );
 
 confetti();
+
+}
 
 }
 
@@ -270,17 +277,25 @@ document
 .getElementById(
 "files"
 )
-.value="";
+.value =
+"";
 
 document
 .getElementById(
 "bar"
 )
-.style.width="0%";
+.style.width =
+"0%";
 
 }
 
 function confetti(){
+
+const area =
+document
+.getElementById(
+"confetti"
+);
 
 for(
 let i=0;
@@ -316,25 +331,17 @@ Math.random()
 "%";
 
 el.style.animationDelay =
-(
 Math.random()
-*
-1.2
-)
 +
 "s";
 
-document
-.getElementById(
-"confetti"
-)
-.appendChild(
+area.appendChild(
 el
 );
 
 setTimeout(
 ()=>el.remove(),
-4000
+3500
 );
 
 }
