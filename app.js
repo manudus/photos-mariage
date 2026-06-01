@@ -1,46 +1,8 @@
-```javascript
-const PASSWORD = "6626";
+alert("APP.JS CHARGÉ");
 
 function login() {
 
-const pwd =
-document
-.getElementById("pwd")
-.value
-.trim();
-
-if (
-pwd === PASSWORD
-) {
-
-document
-.getElementById(
-"loginBox"
-)
-.classList
-.add(
-"hidden"
-);
-
-document
-.getElementById(
-"uploadBox"
-)
-.classList
-.remove(
-"hidden"
-);
-
-} else {
-
-document
-.getElementById(
-"error"
-)
-.textContent =
-"Mot de passe incorrect";
-
-}
+alert("LOGIN OK");
 
 }
 ```
