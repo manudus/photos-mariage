@@ -1,7 +1,7 @@
 body {
   font-family: Arial;
-  text-align: center;
   background: #f7efe9;
+  text-align: center;
   margin: 0;
 }
 
@@ -13,24 +13,7 @@ button {
   background: #c66b3d;
   color: white;
   border: none;
-  padding: 12px;
+  padding: 12px 18px;
+  border-radius: 10px;
   margin-top: 10px;
-  border-radius: 8px;
-}
-
-.progress {
-  width: 80%;
-  height: 10px;
-  background: #eee;
-  margin: 20px auto;
-}
-
-#progressBar {
-  width: 0%;
-  height: 100%;
-  background: #c66b3d;
-}
-
-.hidden {
-  display: none;
 }
