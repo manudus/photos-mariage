@@ -30,9 +30,7 @@ async function uploadPhotos() {
   barContainer.classList.remove("hidden");
   bar.style.width = "0%";
 
-  let total = files.length;
-
-  for (let i = 0; i < total; i++) {
+  for (let i = 0; i < files.length; i++) {
     const file = files[i];
     const base64 = await toBase64(file);
 
@@ -45,7 +43,7 @@ async function uploadPhotos() {
       })
     });
 
-    let progress = Math.round(((i + 1) / total) * 100);
+    let progress = Math.round(((i + 1) / files.length) * 100);
     bar.style.width = progress + "%";
   }
 
@@ -55,6 +53,7 @@ async function uploadPhotos() {
   setTimeout(() => {
     barContainer.classList.add("hidden");
     showThanks();
+    launchConfetti();
   }, 500);
 }
 
@@ -68,16 +67,13 @@ function toBase64(file) {
   });
 }
 
-// 💛 MESSAGE FINAL + CONFETTIS
+// 💛 MESSAGE FINAL
 function showThanks() {
-  const box = document.getElementById("thanks");
-  box.classList.remove("hidden");
-
-  launchConfetti();
+  document.getElementById("thanks").classList.remove("hidden");
 
   setTimeout(() => {
-    box.classList.add("hidden");
-  }, 4000);
+    document.getElementById("thanks").classList.add("hidden");
+  }, 6000);
 }
 
 // 🎊 CONFETTIS
