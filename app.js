@@ -71,19 +71,38 @@ function toBase64(file) {
 ===================== */
 function loadGallery() {
   fetch(SCRIPT_URL)
-    .then(r => r.json())
+    .then(async res => {
+      const text = await res.text();
+      try {
+        return JSON.parse(text);
+      } catch (e) {
+        console.error("Réponse invalide:", text);
+        return { images: [] };
+      }
+    })
     .then(data => {
-      images = data.images || [];
-
       const grid = document.getElementById("galleryGrid");
       grid.innerHTML = "";
 
-      images.forEach((url, i) => {
+      if (!data.images || !data.images.length) {
+        grid.innerHTML = "<p style='text-align:center'>Aucune photo pour le moment 💛</p>";
+        return;
+      }
+
+      data.images.forEach(url => {
         const img = document.createElement("img");
         img.src = url;
-        img.onclick = () => openViewer(i);
+
+        // 🔥 IMPORTANT: fallback si image cassée
+        img.onerror = () => {
+          img.style.display = "none";
+        };
+
         grid.appendChild(img);
       });
+    })
+    .catch(err => {
+      console.error("Erreur galerie:", err);
     });
 }
 
