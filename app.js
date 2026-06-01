@@ -1,8 +1,14 @@
 const PASSWORD = "6626";
 
-function login() {
+document.addEventListener("DOMContentLoaded", () => {
 
-alert("LOGIN OK");
+document
+.getElementById("loginBtn")
+.addEventListener("click", login);
+
+});
+
+function login() {
 
 const pwd =
 document
@@ -14,13 +20,11 @@ if (pwd === PASSWORD) {
 
 document
 .getElementById("loginBox")
-.style.display =
-"none";
+.classList.add("hidden");
 
 document
 .getElementById("uploadBox")
-.style.display =
-"block";
+.classList.remove("hidden");
 
 } else {
 
@@ -32,6 +36,3 @@ document
 }
 
 }
-
-/* 🔥 rend la fonction accessible globalement */
-window.login = login;
