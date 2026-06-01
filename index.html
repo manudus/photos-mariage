@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Photos mariage Valérie & Manu</title>
+
   <link rel="stylesheet" href="style.css"/>
 </head>
 
@@ -26,17 +27,30 @@
 <div id="app" class="hidden">
 
   <header>
-    <h1>💍 Upload Photos</h1>
-    <p>Partagez vos souvenirs</p>
+    <h1>💍 Partagez vos photos</h1>
+    <p>Merci de contribuer à nos souvenirs 💛</p>
   </header>
 
   <div class="upload">
+
     <input type="file" id="fileInput" multiple accept="image/*"/>
     <button onclick="uploadPhotos()">Envoyer les photos</button>
 
     <p id="status"></p>
+
+    <!-- BARRE PROGRESSION -->
+    <div id="progressContainer" class="progress hidden">
+      <div id="progressBar"></div>
+    </div>
+
   </div>
 
+</div>
+
+<!-- MESSAGE DE FIN -->
+<div id="thanks" class="thanks hidden">
+  <h2>💛 Merci !</h2>
+  <p>Vos photos rendent ce mariage inoubliable</p>
 </div>
 
 <script src="app.js"></script>
