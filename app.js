@@ -2,9 +2,12 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzEujXcCRFt80cAILTlB
 
 const INVITE_CODE = "6626";
 
-// =====================
-// 🔐 LOGIN
-// =====================
+let images = [];
+let currentIndex = 0;
+
+/* =====================
+🔐 LOGIN
+===================== */
 function checkCode() {
   const input = document.getElementById("accessCode").value;
 
@@ -17,9 +20,9 @@ function checkCode() {
   }
 }
 
-// =====================
-// 📤 UPLOAD ULTRA SIMPLE
-// =====================
+/* =====================
+📤 UPLOAD
+===================== */
 async function uploadPhotos() {
   const files = document.getElementById("fileInput").files;
   const status = document.getElementById("status");
@@ -51,9 +54,9 @@ async function uploadPhotos() {
   showPopup();
 }
 
-// =====================
-// 🔄 BASE64
-// =====================
+/* =====================
+BASE64
+===================== */
 function toBase64(file) {
   return new Promise((res, rej) => {
     const r = new FileReader();
@@ -63,31 +66,83 @@ function toBase64(file) {
   });
 }
 
-// =====================
-// 🖼️ GALERIE ULTRA FIABLE
-// =====================
+/* =====================
+🖼️ GALERIE
+===================== */
 function loadGallery() {
   fetch(SCRIPT_URL)
     .then(r => r.json())
     .then(data => {
+      images = data.images || [];
+
       const grid = document.getElementById("galleryGrid");
       grid.innerHTML = "";
 
-      (data.images || []).forEach(url => {
+      images.forEach((url, i) => {
         const img = document.createElement("img");
         img.src = url;
-        img.loading = "lazy";
+        img.onclick = () => openViewer(i);
         grid.appendChild(img);
       });
     });
 }
 
-// =====================
-// 🎉 POPUP
-// =====================
-function showPopup() {
-  const p = document.getElementById("thankPopup");
-  p.classList.remove("hidden");
-
-  setTimeout(() => p.classList.add("hidden"), 4500);
+/* =====================
+🔍 VIEWER
+===================== */
+function openViewer(index) {
+  currentIndex = index;
+  document.getElementById("viewerImg").src = images[currentIndex];
+  document.getElementById("viewer").classList.remove("hidden");
 }
+
+function closeViewer() {
+  document.getElementById("viewer").classList.add("hidden");
+}
+
+function nextImg() {
+  if (currentIndex < images.length - 1) {
+    currentIndex++;
+    document.getElementById("viewerImg").src = images[currentIndex];
+  }
+}
+
+function prevImg() {
+  if (currentIndex > 0) {
+    currentIndex--;
+    document.getElementById("viewerImg").src = images[currentIndex];
+  }
+}
+
+/* =====================
+🎉 POPUP
+===================== */
+function showPopup() {
+  document.getElementById("thankPopup").classList.remove("hidden");
+
+  setTimeout(() => {
+    closePopup();
+  }, 4000);
+}
+
+function closePopup() {
+  document.getElementById("thankPopup").classList.add("hidden");
+}
+
+/* =====================
+📱 SWIPE MOBILE
+===================== */
+let startX = 0;
+
+document.addEventListener("touchstart", e => {
+  startX = e.touches[0].clientX;
+});
+
+document.addEventListener("touchend", e => {
+  const endX = e.changedTouches[0].clientX;
+
+  if (!document.getElementById("viewer").classList.contains("hidden")) {
+    if (startX - endX > 50) nextImg();
+    if (endX - startX > 50) prevImg();
+  }
+});
