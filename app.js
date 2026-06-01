@@ -1,9 +1,11 @@
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzEujXcCRFt80cAILTlB3HNGG0fybvxMiN2siSOB_98NNa81L3gzuJv_vRNWERrxpI/exec";
 
-// 🔐 CODE INVITÉ (CHANGE ICI)
+// 🔐 CODE INVITÉ (doit matcher Google Apps Script)
 const INVITE_CODE = "mariage2026";
 
-// LOGIN
+// =====================
+// 🔐 LOGIN INVITÉ
+// =====================
 function checkCode() {
   const input = document.getElementById("accessCode").value;
   const error = document.getElementById("loginError");
@@ -11,82 +13,129 @@ function checkCode() {
   if (input === INVITE_CODE) {
     document.getElementById("loginScreen").style.display = "none";
     document.getElementById("app").classList.remove("hidden");
-    generateQR();
-    loadGallery();
+
+    initApp();
   } else {
     error.textContent = "Code incorrect ❌";
   }
 }
 
-// UPLOAD
+// =====================
+// 🚀 INIT APP
+// =====================
+function initApp() {
+  generateQR();
+  loadGallery();
+}
+
+// =====================
+// 📤 UPLOAD PHOTOS
+// =====================
 async function uploadPhotos() {
   const files = document.getElementById("fileInput").files;
   const status = document.getElementById("status");
 
   if (!files.length) {
-    status.textContent = "Choisis des photos";
+    status.textContent = "Choisis au moins une photo 📸";
     return;
   }
 
-  status.textContent = "Upload...";
+  status.textContent = "Envoi en cours... ⏳";
 
-  for (let file of files) {
-    const base64 = await toBase64(file);
+  try {
+    for (let file of files) {
+      const base64 = await toBase64(file);
 
-    await fetch(SCRIPT_URL, {
-      method: "POST",
-      body: JSON.stringify({
-        image: base64,
-        name: file.name
-      })
-    });
+      const response = await fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          image: base64,
+          name: file.name,
+          code: INVITE_CODE // 🔐 sécurité côté serveur
+        })
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        console.error("Erreur upload:", result);
+      }
+    }
+
+    status.textContent = "Photos envoyées 💛";
+    document.getElementById("fileInput").value = "";
+
+    loadGallery();
+    showPopup();
+
+  } catch (err) {
+    console.error(err);
+    status.textContent = "Erreur d’envoi ❌";
   }
-
-  status.textContent = "Envoyé 💛";
-  document.getElementById("fileInput").value = "";
-
-  loadGallery();
-  showPopup();
 }
 
-// BASE64
+// =====================
+// 🔄 BASE64 CONVERSION
+// =====================
 function toBase64(file) {
-  return new Promise((res, rej) => {
+  return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.onload = () => res(reader.result);
-    reader.onerror = rej;
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
     reader.readAsDataURL(file);
   });
 }
 
-// GALERIE
+// =====================
+// 🖼️ GALERIE
+// =====================
 function loadGallery() {
   fetch(SCRIPT_URL)
-    .then(r => r.json())
+    .then(res => res.json())
     .then(data => {
       const grid = document.getElementById("galleryGrid");
       grid.innerHTML = "";
 
-      data.images.forEach(img => {
-        const el = document.createElement("img");
-        el.src = img;
-        grid.appendChild(el);
+      if (!data.images) return;
+
+      data.images.forEach(url => {
+        const img = document.createElement("img");
+        img.src = url;
+        img.loading = "lazy";
+        grid.appendChild(img);
       });
+    })
+    .catch(err => {
+      console.error("Erreur galerie:", err);
     });
 }
 
-// POPUP
+// =====================
+// 🎉 POPUP REMERCIEMENT
+// =====================
 function showPopup() {
   document.getElementById("thankPopup").classList.remove("hidden");
+
+  // auto-fermeture douce après 5s
+  setTimeout(() => {
+    closePopup();
+  }, 5000);
 }
 
 function closePopup() {
   document.getElementById("thankPopup").classList.add("hidden");
 }
 
-// QR CODE
+// =====================
+// 📱 QR CODE
+// =====================
 function generateQR() {
-  new QRCode(document.getElementById("qrcode"), {
+  const qrContainer = document.getElementById("qrcode");
+  if (!qrContainer) return;
+
+  qrContainer.innerHTML = "";
+
+  new QRCode(qrContainer, {
     text: window.location.href,
     width: 160,
     height: 160
