@@ -1,22 +1,19 @@
 body {
   margin: 0;
-  font-family: Georgia, serif;
+  font-family: Arial;
   background: #f7efe9;
   color: #3b2f2a;
+  text-align: center;
 }
 
-/* HEADER */
 header {
-  text-align: center;
-  padding: 30px;
   background: #c66b3d;
   color: white;
+  padding: 30px;
 }
 
-/* UPLOAD */
-.upload-box {
-  text-align: center;
-  padding: 20px;
+.upload {
+  margin-top: 40px;
 }
 
 button {
@@ -25,30 +22,17 @@ button {
   border: none;
   padding: 12px 18px;
   border-radius: 10px;
+  margin-top: 10px;
   cursor: pointer;
 }
 
-/* GALERIE INSTAGRAM */
-#galleryGrid {
-  column-count: 3;
-  column-gap: 10px;
+input {
   padding: 10px;
-}
-
-#galleryGrid img {
-  width: 100%;
-  margin-bottom: 10px;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-#galleryGrid img:hover {
-  transform: scale(1.02);
+  margin-top: 10px;
 }
 
 /* LOGIN */
-.login-screen {
+.login {
   position: fixed;
   inset: 0;
   background: #c66b3d;
@@ -58,88 +42,12 @@ button {
   color: white;
 }
 
-.login-box {
+.box {
   background: rgba(255,255,255,0.15);
   padding: 30px;
   border-radius: 15px;
-  text-align: center;
-}
-
-.login-box input {
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-}
-
-/* POPUP */
-.popup {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.popup-content {
-  background: #f7efe9;
-  padding: 25px;
-  border-radius: 16px;
-  text-align: center;
 }
 
 .hidden {
   display: none;
 }
-
-.balloons {
-  font-size: 2rem;
-  animation: float 1.5s infinite;
-}
-
-@keyframes float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
-}
-
-/* VIEWER IPHONE STYLE */
-.viewer {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.95);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-
-.viewer img {
-  max-width: 95%;
-  max-height: 90%;
-  border-radius: 12px;
-}
-
-.close-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 28px;
-  color: white;
-  cursor: pointer;
-}
-
-.nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255,255,255,0.1);
-  color: white;
-  border: none;
-  font-size: 40px;
-  width: 50px;
-  height: 80px;
-}
-
-.nav.left { left: 10px; }
-.nav.right { right: 10px; }
