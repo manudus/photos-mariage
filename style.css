@@ -8,13 +8,13 @@ background:
 
 linear-gradient(
 180deg,
-#f7ece6,
-#efe0d6
+#f8eee8,
+#f1dfd5
 );
 
 font-family:
 
-system-ui;
+Arial;
 
 }
 
@@ -24,24 +24,24 @@ max-width:520px;
 
 margin:auto;
 
-padding:32px;
-
 background:white;
+
+padding:32px;
 
 border-radius:28px;
 
 box-shadow:
 
-0 15px 40px
+0 10px 35px
 rgba(0,0,0,.08);
 
 }
 
 h1{
 
-text-align:center;
+color:#b4664b;
 
-color:#b6654b;
+text-align:center;
 
 }
 
@@ -49,15 +49,15 @@ color:#b6654b;
 
 text-align:center;
 
-color:#8d695b;
+color:#8f7368;
+
+margin-bottom:28px;
 
 }
 
 input{
 
 width:100%;
-
-margin-top:20px;
 
 }
 
@@ -73,21 +73,23 @@ border:none;
 
 border-radius:14px;
 
-background:#b6654b;
+background:#b4664b;
 
 color:white;
 
 font-size:16px;
 
+cursor:pointer;
+
 }
 
 .progress{
 
-margin-top:20px;
+margin-top:18px;
 
-height:12px;
+height:10px;
 
-background:#eee;
+background:#ece3df;
 
 border-radius:999px;
 
@@ -97,11 +99,11 @@ overflow:hidden;
 
 #bar{
 
-height:100%;
-
 width:0;
 
-background:#b6654b;
+height:100%;
+
+background:#b4664b;
 
 transition:.3s;
 
@@ -121,18 +123,20 @@ position:fixed;
 
 inset:0;
 
+background:
+rgba(0,0,0,.35);
+
 display:flex;
 
 justify-content:center;
 
 align-items:center;
 
-background:
-rgba(0,0,0,.35);
-
 }
 
 .popup-content{
+
+position:relative;
 
 width:90%;
 
@@ -140,25 +144,23 @@ max-width:420px;
 
 background:white;
 
-padding:30px;
+padding:32px;
 
-border-radius:26px;
+border-radius:28px;
 
 text-align:center;
-
-position:relative;
 
 overflow:hidden;
 
 }
 
-.popup a{
+.gallery-link{
 
 display:block;
 
 margin-top:18px;
 
-color:#b6654b;
+color:#b4664b;
 
 font-weight:bold;
 
@@ -174,12 +176,11 @@ display:none;
 
 position:absolute;
 
-top:-20px;
+top:-30px;
 
 font-size:24px;
 
 animation:
-
 fall
 3s
 linear
@@ -192,7 +193,7 @@ forwards;
 to{
 
 transform:
-translateY(110vh)
+translateY(120vh)
 rotate(360deg);
 
 opacity:0;
