@@ -1,55 +1,71 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Photos mariage Valérie & Manu</title>
 
-<title>Valérie & Manu - Photos</title>
+  <link rel="stylesheet" href="style.css"/>
 
-<link rel="stylesheet" href="style.css">
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 
 <body>
 
-<div class="container">
-
-<h1 class="title">Valérie & Manu</h1>
-
-<!-- LOGIN -->
-<div id="loginBox" class="card">
-
-<h2>Accès privé</h2>
-
-<input type="password" id="pwd" placeholder="Mot de passe">
-
-<button id="loginBtn">Entrer</button>
-
-<p id="error"></p>
-
+<!-- 🔒 LOGIN INVITÉ -->
+<div id="loginScreen" class="login-screen">
+  <div class="login-box">
+    <h1>💍 Mariage Valérie & Manu</h1>
+    <p>Entrez votre code invité</p>
+    <input type="password" id="accessCode" placeholder="Code invité..." />
+    <button onclick="checkCode()">Entrer</button>
+    <p id="loginError"></p>
+  </div>
 </div>
 
-<!-- UPLOAD -->
-<div id="uploadBox" class="card hidden">
+<!-- APP -->
+<div id="app" class="hidden">
 
-<h2>Ajouter vos photos</h2>
+  <header>
+    <h1>Photos mariage Valérie & Manu</h1>
+    <p>Partagez vos souvenirs 💛</p>
+  </header>
 
-<input type="file" id="files" multiple accept="image/*">
+  <main>
 
-<button id="uploadBtn">Envoyer</button>
+    <!-- UPLOAD -->
+    <section class="upload-box">
+      <input type="file" id="fileInput" multiple accept="image/*" />
+      <button onclick="uploadPhotos()">Envoyer les photos</button>
+      <p id="status"></p>
+    </section>
 
-<p id="status"></p>
+    <!-- GALERIE -->
+    <section class="gallery">
+      <h2>Galerie</h2>
+      <div id="galleryGrid"></div>
+    </section>
 
-<h2>Galerie</h2>
-<div id="gallery"></div>
+    <!-- QR -->
+    <section class="qr">
+      <h2>Accès rapide</h2>
+      <div id="qrcode"></div>
+    </section>
 
+  </main>
 </div>
 
+<!-- 🎉 POPUP -->
+<div id="thankPopup" class="popup hidden">
+  <div class="popup-content">
+    <div class="balloons">🎈🎈🎈</div>
+    <h2>Merci 💛</h2>
+    <p>Vos photos rendent ce mariage inoubliable !</p>
+    <p>Vous pouvez en ajouter autant que vous voulez 📸✨</p>
+    <button onclick="closePopup()">Continuer</button>
+  </div>
 </div>
 
 <script src="app.js"></script>
-
 </body>
-
 </html>
