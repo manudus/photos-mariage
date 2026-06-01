@@ -1,95 +1,221 @@
-const ENDPOINT = "https://script.google.com/macros/s/AKfycbzCQ3tL2DIti0UtniK9nUXbCr7MIEbs60tG_xS7DoxOLIL0_QcUAGBBfoDMwKAHKRA/exec";
+const ENDPOINT =
+"COLLE_TON_URL_EXEC";
 
-async function uploadFiles() {
+async function uploadFiles(){
 
 const files =
-document.getElementById("files").files;
+[
+...document
+.getElementById("files")
+.files
+];
 
 const status =
-document.getElementById("status");
+document
+.getElementById(
+"status"
+);
 
-if (!files.length) {
+const bar =
+document
+.getElementById(
+"bar"
+);
+
+if(
+!files.length
+){
+
 status.textContent =
-"Sélectionne au moins une photo";
+"Sélectionne des photos";
+
 return;
+
 }
 
+try{
+
+for(
+let i=0;
+i<
+files.length;
+i++
+){
+
 status.textContent =
-"Upload en cours...";
-
-try {
-
-for (const file of files) {
+`Préparation ${i+1}/${files.length}`;
 
 const base64 =
-await readFile(file);
+await compress(
+files[i]
+);
 
-const res =
+status.textContent =
+`Envoi ${i+1}/${files.length}`;
+
 await fetch(
 ENDPOINT,
 {
-method: "POST",
-headers: {
+
+method:
+"POST",
+
+headers:{
 "Content-Type":
 "text/plain"
 },
+
 body:
 JSON.stringify({
+
 filename:
-file.name,
+rename(
+files[i].name
+),
+
 mimeType:
-file.type,
+"image/jpeg",
+
 data:
 base64
+
 })
+
 }
+
 );
 
-const text =
-await res.text();
+bar.style.width =
+(
+(i+1)
+/
+files.length
+*
+100
+)
++
+"%";
 
-console.log(text);
-
-if (!res.ok) {
-throw new Error(
-"HTTP " +
-res.status
-);
 }
-
-}
-
-showSuccess();
-
-} catch (err) {
-
-console.error(err);
 
 status.textContent =
-"Erreur : " +
-err.message;
+"";
+
+showPopup();
+
+}
+catch(e){
+
+status.textContent =
+"Erreur upload";
+
+console.error(e);
 
 }
 
 }
 
-function readFile(file) {
+function compress(
+file
+){
 
 return new Promise(
-(resolve, reject) => {
+(resolve)=>{
 
 const reader =
 new FileReader();
 
 reader.onload =
-() =>
-resolve(
-reader.result
-.split(",")[1]
+e=>{
+
+const img =
+new Image();
+
+img.onload =
+()=>{
+
+const c =
+document
+.createElement(
+"canvas"
 );
 
-reader.onerror =
-reject;
+let w =
+img.width;
+
+let h =
+img.height;
+
+const max =
+1800;
+
+if(
+w>h
+&&
+w>max
+){
+
+h=
+h
+*
+max
+/
+w;
+
+w=max;
+
+}
+
+if(
+h>w
+&&
+h>max
+){
+
+w=
+w
+*
+max
+/
+h;
+
+h=max;
+
+}
+
+c.width=w;
+
+c.height=h;
+
+c
+.getContext(
+"2d"
+)
+.drawImage(
+img,
+0,
+0,
+w,
+h
+);
+
+resolve(
+
+c
+.toDataURL(
+"image/jpeg",
+0.72
+)
+.split(",")[1]
+
+);
+
+};
+
+img.src =
+e.target.result;
+
+};
 
 reader.readAsDataURL(
 file
@@ -100,42 +226,117 @@ file
 
 }
 
-function showSuccess() {
+function rename(
+name
+){
 
-document
-.getElementById(
-"status"
+return name
+.replace(
+/\..+$/,
+""
 )
-.textContent =
-"";
++
+".jpg";
+
+}
+
+function showPopup(){
 
 document
 .getElementById(
-"result"
+"popup"
 )
 .classList
 .remove(
 "hidden"
 );
 
+confetti();
+
 }
 
-function resetUpload() {
+function resetUpload(){
 
 document
 .getElementById(
-"files"
-)
-.value =
-"";
-
-document
-.getElementById(
-"result"
+"popup"
 )
 .classList
 .add(
 "hidden"
 );
+
+document
+.getElementById(
+"files"
+)
+.value="";
+
+document
+.getElementById(
+"bar"
+)
+.style.width="0%";
+
+}
+
+function confetti(){
+
+for(
+let i=0;
+i<80;
+i++
+){
+
+const el =
+document
+.createElement(
+"div"
+);
+
+el.className =
+"confetti";
+
+el.innerHTML =
+[
+"🎉",
+"✨",
+"🤎"
+][
+Math.floor(
+Math.random()*3
+)
+];
+
+el.style.left =
+Math.random()
+*
+100
++
+"%";
+
+el.style.animationDelay =
+(
+Math.random()
+*
+1.2
+)
++
+"s";
+
+document
+.getElementById(
+"confetti"
+)
+.appendChild(
+el
+);
+
+setTimeout(
+()=>el.remove(),
+4000
+);
+
+}
 
 }
