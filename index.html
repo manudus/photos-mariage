@@ -1,87 +1,32 @@
-const FOLDER_NAME = "Mariage Valérie & Manu";
-const INVITE_CODE = "6626";
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Photos mariage Valérie & Manu</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
 
-/* =========================
-   📁 RÉCUPÉRATION DOSSIER
-========================= */
-function getFolder() {
-  const folders = DriveApp.getFoldersByName(FOLDER_NAME);
-  return folders.hasNext()
-    ? folders.next()
-    : DriveApp.createFolder(FOLDER_NAME);
-}
+<body>
 
-/* =========================
-   📤 UPLOAD PHOTO (POST)
-========================= */
-function doPost(e) {
-  try {
-    const data = JSON.parse(e.postData.contents);
+<div class="container">
 
-    // 🔐 sécurité simple
-    if (!data.code || data.code !== INVITE_CODE) {
-      return json({ success: false, error: "Code invalide" });
-    }
+  <h1>💍 Mariage Valérie & Manu</h1>
+  <p>Partagez vos plus beaux souvenirs 💛</p>
 
-    const folder = getFolder();
+  <input type="file" id="fileInput" multiple accept="image/*"/>
 
-    const base64 = data.image.split(",")[1];
+  <button onclick="uploadPhotos()">Envoyer les photos</button>
 
-    const blob = Utilities.newBlob(
-      Utilities.base64Decode(base64),
-      "image/jpeg",
-      data.name || "photo.jpg"
-    );
+  <p id="status"></p>
 
-    const file = folder.createFile(blob);
+  <!-- PROGRESS -->
+  <div id="progressContainer" class="progress hidden">
+    <div id="progressBar"></div>
+  </div>
 
-    // 🌍 rendre public
-    file.setSharing(
-      DriveApp.Access.ANYONE_WITH_LINK,
-      DriveApp.Permission.VIEW
-    );
+</div>
 
-    const url = "https://drive.google.com/uc?export=view&id=" + file.getId();
-
-    // 💾 stockage liste images
-    const props = PropertiesService.getScriptProperties();
-    let images = JSON.parse(props.getProperty("images") || "[]");
-
-    images.unshift(url); // plus récent en premier
-
-    props.setProperty("images", JSON.stringify(images));
-
-    return json({
-      success: true,
-      url: url
-    });
-
-  } catch (err) {
-    return json({
-      success: false,
-      error: err.toString()
-    });
-  }
-}
-
-/* =========================
-   📥 GALERIE (GET)
-========================= */
-function doGet() {
-  const props = PropertiesService.getScriptProperties();
-  const images = JSON.parse(props.getProperty("images") || "[]");
-
-  return json({
-    success: true,
-    images: images
-  });
-}
-
-/* =========================
-   🔧 UTILITAIRE JSON
-========================= */
-function json(obj) {
-  return ContentService
-    .createTextOutput(JSON.stringify(obj))
-    .setMimeType(ContentService.MimeType.JSON);
-}
+<script src="app.js"></script>
+</body>
+</html>
