@@ -1,5 +1,5 @@
 const ENDPOINT =
-"COLLE_TON_URL_EXEC";
+"https://script.google.com/macros/s/AKfycbzJoN9yZqKov_zbzCZEzx-cKTJrbJC_DfKINX4RXQiA3R370T6ji2M6BQPLfSuL_Ao/exec";
 
 /* =====================
 UPLOAD
