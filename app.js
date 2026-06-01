@@ -1,9 +1,7 @@
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzEujXcCRFt80cAILTlB3HNGG0fybvxMiN2siSOB_98NNa81L3gzuJv_vRNWERrxpI/exec";
+
 const INVITE_CODE = "6626";
 
-// =====================
-// STATE GLOBAL (CACHE)
-// =====================
 let images = [];
 let currentIndex = 0;
 
@@ -32,7 +30,7 @@ async function uploadPhotos() {
 
   if (!files.length) return;
 
-  status.textContent = "Upload...";
+  status.textContent = "Upload... ⏳";
 
   for (let file of files) {
     const base64 = await toBase64(file);
@@ -47,15 +45,13 @@ async function uploadPhotos() {
     });
   }
 
-  document.getElementById("fileInput").value = "";
   status.textContent = "Envoyé 💛";
+  document.getElementById("fileInput").value = "";
 
-  loadGallery(true); // force refresh
+  loadGallery();
   showPopup();
 }
 
-// =====================
-// BASE64
 // =====================
 function toBase64(file) {
   return new Promise((res, rej) => {
@@ -67,110 +63,64 @@ function toBase64(file) {
 }
 
 // =====================
-// 🖼️ GALERIE ULTRA OPTIMISÉE
+// 🖼️ GALERIE FIABLE
 // =====================
-function loadGallery(force = false) {
-  if (!force && images.length) {
-    renderGallery();
-    return;
-  }
-
+function loadGallery() {
   fetch(SCRIPT_URL)
-    .then(r => r.json())
+    .then(res => res.json())
     .then(data => {
       images = data.images || [];
 
-      preloadImages(images);
-      renderGallery();
+      const grid = document.getElementById("galleryGrid");
+      grid.innerHTML = "";
+
+      if (!images.length) {
+        grid.innerHTML = "<p style='text-align:center'>Aucune photo pour le moment 💛</p>";
+        return;
+      }
+
+      images.forEach((url, i) => {
+        const img = document.createElement("img");
+        img.src = url;
+        img.onclick = () => openViewer(i);
+        grid.appendChild(img);
+      });
+    })
+    .catch(err => {
+      console.error("Erreur galerie:", err);
     });
 }
 
 // =====================
-// 🧠 PRELOAD (ANTI ÉCRAN NOIR)
+// 🔍 VIEWER
 // =====================
-function preloadImages(list) {
-  list.forEach(src => {
-    const img = new Image();
-    img.src = src;
-  });
-}
-
-// =====================
-// 🖼️ RENDER GRID
-// =====================
-function renderGallery() {
-  const grid = document.getElementById("galleryGrid");
-  grid.innerHTML = "";
-
-  images.forEach((url, i) => {
-    const img = document.createElement("img");
-    img.src = url;
-    img.loading = "lazy";
-    img.decoding = "async";
-
-    img.onclick = () => openViewer(i);
-
-    grid.appendChild(img);
-  });
-}
-
-// =====================
-// 🔍 VIEWER (IPHONE STYLE)
-// =====================
-function openViewer(index) {
-  currentIndex = index;
-
-  const viewer = document.getElementById("viewer");
-  const img = document.getElementById("viewerImg");
-
-  img.src = images[currentIndex];
-
-  viewer.classList.remove("hidden");
+function openViewer(i) {
+  currentIndex = i;
+  document.getElementById("viewerImg").src = images[i];
+  document.getElementById("viewer").classList.remove("hidden");
 }
 
 function closeViewer() {
   document.getElementById("viewer").classList.add("hidden");
 }
 
-// =====================
-// ➡️ NAVIGATION
-// =====================
 function nextImg() {
   if (currentIndex < images.length - 1) {
     currentIndex++;
-    updateViewer();
+    update();
   }
 }
 
 function prevImg() {
   if (currentIndex > 0) {
     currentIndex--;
-    updateViewer();
+    update();
   }
 }
 
-function updateViewer() {
-  const img = document.getElementById("viewerImg");
-  img.src = images[currentIndex];
+function update() {
+  document.getElementById("viewerImg").src = images[currentIndex];
 }
-
-// =====================
-// 👆 SWIPE MOBILE
-// =====================
-let startX = 0;
-
-document.addEventListener("touchstart", e => {
-  startX = e.touches[0].clientX;
-});
-
-document.addEventListener("touchend", e => {
-  const endX = e.changedTouches[0].clientX;
-
-  if (document.getElementById("viewer").classList.contains("hidden")) return;
-
-  if (startX - endX > 50) nextImg();
-  if (endX - startX > 50) prevImg();
-});
 
 // =====================
 // 🎉 POPUP
